@@ -9,13 +9,9 @@ complete <- function(directory, id = 1:332) {
       i <- paste("0", i, sep="")
     }
     mydata <- read.csv(paste(directory,"/",i,".csv", sep=""))  # read csv file
-    nobs <- 0
-    for(row in 1:nrow(mydata)){
-      if(is.na(mydata[row, "sulfates"]) !=0){
-        nobs <- nobs + 1
-      }
-    }
-    comtable <- rbind(comtable, data.frame(x = id, y = nobs))
+    sub1 <- subset(mydata, !is.na(mydata$"sulfate"))
+    sub1 <- subset(sub1, !is.na(sub1$"nitrate"))
+    comtable <- rbind(comtable, data.frame("id" = i, "nobs" = nrow(sub1)))
   }
-  comtable
+    print(comtable)
 }
